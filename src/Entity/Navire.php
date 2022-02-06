@@ -18,17 +18,27 @@ class Navire
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=7)
+     * @Assert\regex(
+     *      pattern="/[1-9]{7}/",
+     *      message = " Le numéro IMO doit comporter 7 chiffres ")
      */
     private $imo;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *              min = 3,
+     *              max= 100)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=9)
+     * @Assert\regex(
+     *      pattern="/[1-9]{9}/",
+     *      message = " Le numéro MMSI doit comporter 9 chiffres ")
+     * 
      */
     private $mmsi;
 
@@ -38,7 +48,7 @@ class Navire
     private $indicatifAppel;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $eta;
 
