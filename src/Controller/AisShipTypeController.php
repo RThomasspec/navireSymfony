@@ -9,12 +9,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class AisShipTypeController extends AbstractController
 {
     /**
-     * @Route("/ais/ship/type", name="ais_ship_type")
+     * 
+     * @Route("/aisshiptype", name="aisshiptype_")
      */
     public function index(): Response
     {
-        return $this->render('ais_ship_type/index.html.twig', [
+        return $this->render('base.html.twig', [
             'controller_name' => 'AisShipTypeController',
+        ]);
+    }
+
+    /**
+     * 
+     * @Route("/aisshiptype/voirtous", name="aisshiptype_voirtous")
+     */
+    public function voirTous() {
+        $types = [
+            1=>'Reserved',
+            2=>'Wing In Ground',
+            3=>'Special Category',
+            4=>'High-Speed Craft',
+            5=>'Special Category',
+            6=>'Passenger',
+            7=>'Cargo',
+            8=>'Tanker',
+            9=>'Other',
+        ];
+        return $this->render('aisshiptype/voirtous.html.twig',[
+            'types' => $types,
+
         ]);
     }
 }
