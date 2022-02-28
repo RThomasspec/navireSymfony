@@ -36,6 +36,12 @@ class AisShipType
      */
     private $aisShipType;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Port::class, mappedBy="lesTypes")
+     */
+    private $lesPorts;
+
+ 
    
 
     public function __construct()
@@ -123,6 +129,23 @@ class AisShipType
     public function removeLesPort(Port $lesPort): self
     {
         $this->lesPorts->removeElement($lesPort);
+
+        return $this;
+    }
+
+    public function getAvoir(): ?Navire
+    {
+        return $this->avoir;
+    }
+
+    public function setAvoir(Navire $avoir): self
+    {
+        // set the owning side of the relation if necessary
+        if ($avoir->getLeType() !== $this) {
+            $avoir->setLeType($this);
+        }
+
+        $this->avoir = $avoir;
 
         return $this;
     }

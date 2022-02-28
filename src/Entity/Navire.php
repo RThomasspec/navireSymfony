@@ -54,6 +54,49 @@ class Navire
      */
     private $eta;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Pays::class)
+     * @ORM\JoinColumn(name="idpays", nullable=false)
+     */
+    private $lePavillon;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Port::class, inversedBy="naviresAttendus", cascade={"persist"})
+     * @ORM\JoinColumn(name="idportdestination", nullable=true)
+     */
+    private $portDestination;
+
+    
+
+    /**
+     * @ORM\OneToMany(targetEntity=Escale::class, mappedBy="leNavire", orphanRemoval=true)
+     */
+    private $lesEscales;
+
+     /**
+     * @ORM\Column(type="integer",name ="longueur", length=10)
+     */
+    private $longueur;
+    
+     /**
+     * @ORM\Column(type="integer",name="largeur", length=10)
+     */
+    private $largeur;
+    
+    
+     /**
+     * @ORM\Column(type="float",name="tirandeau", length=10)
+     */
+    private $tirandeau;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AisShipType::class)
+     * @ORM\JoinColumn(nullable=false, name="idAisShipType")
+     */
+    private $leType;
+
+
+    
  
 
 
@@ -225,4 +268,43 @@ class Navire
 
         return $this;
     }
+
+    public function getLeType(): ?AisShipType
+    {
+        return $this->leType;
+    }
+
+    public function setLeType(AisShipType $leType): self
+    {
+        $this->leType = $leType;
+
+        return $this;
+    }
+    
+    public function getLongueur() {
+        return $this->longueur;
+    }
+
+    public function getLargeur() {
+        return $this->largeur;
+    }
+
+    public function getTirandeau() {
+        return $this->tirandeau;
+    }
+
+    public function setLongueur($longueur): void {
+        $this->longueur = $longueur;
+    }
+
+    public function setLargeur($largeur): void {
+        $this->largeur = $largeur;
+    }
+
+    public function setTirandeau($tirandeau): void {
+        $this->tirandeau = $tirandeau;
+    }
+
+
 }
+

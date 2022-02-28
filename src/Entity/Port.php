@@ -10,6 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PortRepository::class)
+ * @ORM\Table(  name="port" ,
+ *              uniqueConstraints={@ORM\UniqueConstraint(name="portindicatif_unique",columns={"indicatif"})}
+ * )
  */
 class Port
 {
@@ -34,7 +37,35 @@ class Port
      */
     private $indicatif;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=AisShipType::class, mappedBy="lesPorts")
+     */
+    private $lesTypes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Navire::class, mappedBy="portDestination")
+     */
+    private $naviresAttendus;
+
+ 
+ /**
+     * @ORM\ManyToMany(targetEntity=AisShipType::class, inversedBy="lesPorts")
+     * @ORM\JoinTable(
+     *          name="porttypecompatible",
+     *          joinColumns={@ORM\JoinColumn(name="idport", referencedColumnName="id")},
+     *          inverseJoinColumns={@ORM\JoinColumn(name="idaistype", referencedColumnName="id")}
+     * )
+     */
+
+    private $lesEscales;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Pays::class)
+     * @ORM\JoinColumn(nullable=false,name="idpays")
+     */
+    private $lePays;
+
+  
   
 
     public function __construct()
@@ -42,6 +73,7 @@ class Port
         $this->lesTypes = new ArrayCollection();
         $this->navireAttendus = new ArrayCollection();
         $this->lesEscales = new ArrayCollection();
+        $this->naviresAttendus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +198,36 @@ class Port
             // set the owning side to null (unless already changed)
             if ($lesEscale->getLePort() === $this) {
                 $lesEscale->setLePort(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Navire[]
+     */
+    public function getNaviresAttendus(): Collection
+    {
+        return $this->naviresAttendus;
+    }
+
+    public function addNaviresAttendu(Navire $naviresAttendu): self
+    {
+        if (!$this->naviresAttendus->contains($naviresAttendu)) {
+            $this->naviresAttendus[] = $naviresAttendu;
+            $naviresAttendu->setPortDestination($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNaviresAttendu(Navire $naviresAttendu): self
+    {
+        if ($this->naviresAttendus->removeElement($naviresAttendu)) {
+            // set the owning side to null (unless already changed)
+            if ($naviresAttendu->getPortDestination() === $this) {
+                $naviresAttendu->setPortDestination(null);
             }
         }
 
