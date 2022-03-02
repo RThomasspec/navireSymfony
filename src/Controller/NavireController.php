@@ -8,13 +8,5 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NavireController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
-    public function index(): Response
-    {
-        return $this->render('aisshiptype/home.html.twig', [
-            'controller_name' => 'NavireController',
-        ]);
-    }
+  
 }

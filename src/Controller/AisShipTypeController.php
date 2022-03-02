@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\AisShipTypeRepository;
 
 class AisShipTypeController extends AbstractController
 {
@@ -23,18 +24,8 @@ class AisShipTypeController extends AbstractController
      * 
      * @Route("/aisshiptype/voirtous", name="aisshiptype_voirtous")
      */
-    public function voirTous() {
-        $types = [
-            1=>'Reserved',
-            2=>'Wing In Ground',
-            3=>'Special Category',
-            4=>'High-Speed Craft',
-            5=>'Special Category',
-            6=>'Passenger',
-            7=>'Cargo',
-            8=>'Tanker',
-            9=>'Other',
-        ];
+    public function voirTous(AisShipTypeRepository $repo ) {
+        $types = $repo->findAll();
         return $this->render('aisshiptype/voirtous.html.twig',[
             'types' => $types,
 
